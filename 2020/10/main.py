@@ -128,7 +128,7 @@ def find_prev(adapters, current_jolt):
         prev.append(current_jolt-3)
     return prev
 
-def how_many_times_can_i_plug_this_crap(adapters_list):
+def how_many_ways_can_i_plug_this_crap(adapters_list):
     adapters = sorted(adapters_list)
     adapters.insert(0,0)
     possible_ancestors = {0: 1}
@@ -143,6 +143,6 @@ def how_many_times_can_i_plug_this_crap(adapters_list):
         #print(f"  Score for {j}: {total}")
     print(total)
 
-how_many_times_can_i_plug_this_crap(test_input)
-how_many_times_can_i_plug_this_crap(test_input2)
-how_many_times_can_i_plug_this_crap(my_input)
+how_many_ways_can_i_plug_this_crap(test_input)
+how_many_ways_can_i_plug_this_crap(test_input2)
+how_many_ways_can_i_plug_this_crap(my_input)
