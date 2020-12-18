@@ -99,17 +99,6 @@ class PocketDimension:
 
         self.apply()
 
-            
-    def get_active_neighbors_count(self,x,y,z):
-        active_neighbors_cubes = [ self.z[z].y[y].x[x] for x,y,z in self.get_neighbors(x,y,z) if self.z[z].y[y].x[x].is_active]
-        return len(active_neighbors_cubes)
-
-    def get_neighbors(self,x,y,z):
-        neighbors = list(map(lambda prout: (prout[0]+x,prout[1]+y,prout[2]+z), product([0,1,-1],repeat=3)))
-        # remove ourself from the neighbors list
-        neighbors.remove((x,y,z))
-        return neighbors
-
 pd = PocketDimension(my_input)
 for i in range(0,6):
     pd.cycle()
