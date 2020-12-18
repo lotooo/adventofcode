@@ -6,18 +6,14 @@ with open('input', 'r') as f:
 def evaluate(line):
     is_over = re.fullmatch(r"\d+", line)
     if is_over:
-        #print("it's over. Result: {line}")
         return int(line)
 
     parenthesis = re.search(r"\(([0-9+* ]*?)\)", line)
     if parenthesis:
-        #print(f"> {parenthesis.group(1)}")
-        line = line.replace(f"({parenthesis.group(1)})", str(evaluate(parenthesis.group(1))))
-        #print(f"> {line}")
+        line = line.replace(f"({parenthesis.group(1)})", str(evaluate(parenthesis.group(1))), 1)
 
     simple_op = re.fullmatch(r"(\d+) ([+*]) (\d+)",line)
     if simple_op:
-        #print(f"simple: {line}")
         n1 = int(simple_op.group(1))
         op = simple_op.group(2)
         n2 = int(simple_op.group(3))
@@ -28,14 +24,13 @@ def evaluate(line):
 
     doable_operation = re.match(r"(\d+) ([+*]) (\d+)",line)
     if doable_operation:
-        #print(f"doable: {line}")
         n1 = int(doable_operation.group(1))
         op = doable_operation.group(2)
         n2 = int(doable_operation.group(3))
         if op == '+':
-            line = line.replace(f"{n1} + {n2}", f"{n1+n2}")
+            line = line.replace(f"{n1} + {n2}", f"{n1+n2}",1)
         if op == '*':
-            line = line.replace(f"{n1} * {n2}", f"{n1*n2}")
+            line = line.replace(f"{n1} * {n2}", f"{n1*n2}", 1)
         return evaluate(line)
 
     return evaluate(line)
@@ -54,4 +49,3 @@ for line in my_input:
     print(f"{line_result} = {line}")
     result += line_result
 print(f"result: {result}")
-
