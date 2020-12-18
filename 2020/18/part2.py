@@ -4,7 +4,6 @@ with open('input', 'r') as f:
     my_input = [ line.strip() for line in f.readlines() ]
 
 def evaluate(line):
-    print(f"start: {line}")
     is_over = re.fullmatch(r"\d+", line)
     if is_over:
         return int(line)
@@ -12,6 +11,12 @@ def evaluate(line):
     parenthesis = re.search(r"\(([0-9+* ]*?)\)", line)
     if parenthesis:
         line = line.replace(f"({parenthesis.group(1)})", str(evaluate(parenthesis.group(1))), 1)
+
+    # Let's test if we still have parenthesis, if yes, let's deal with them
+    parenthesis = re.search(r"\(([0-9+* ]*?)\)", line)
+    if parenthesis:
+        return evaluate(line)
+
 
     simple_op = re.fullmatch(r"(\d+) ([+*]) (\d+)",line)
     if simple_op:
@@ -49,6 +54,9 @@ assert evaluate("2 * 3 + (4 * 5)") == 46
 assert evaluate("5 + (8 * 3 + 9 + 3 * 4 * 3)") == 1445
 assert evaluate("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))") == 669060
 assert evaluate("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2") == 23340
+
+# :this_down: was failing (reporting 65*4 beucase the () were not fully taking care)
+assert evaluate("5 * 7 + (7 * (2 * 4))") == 5*63
 
 result = 0
 for line in my_input:
