@@ -1,10 +1,12 @@
 def load_data_from_file(filename):
-    #with open(filename, 'r') as f:
-    #    raw_data = f.read()
-    #data = re.split(r'\n\n', raw_data)
     with open(filename, 'r') as f:
-        data = f.readlines()
+        data = list(map(prepate_data, f.readlines()))
     return data
+
+
+def prepate_data(x):
+    return x
+
 
 def solve(data):
     return False
