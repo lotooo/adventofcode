@@ -1,14 +1,18 @@
+#!/usr/bin/env python3
 def load_data_from_file(filename):
+    """ Load the input from a file and return the transformed version """
     with open(filename, 'r') as f:
-        data = list(map(prepate_data, f.readlines()))
+        data = list(map(prepare_data, f.readlines()))
     return data
 
 
-def prepate_data(x):
+def prepare_data(x):
+    """ transform the data the way we want it for the puzzle """
     return x
 
 
 def solve(data):
+    """ Solve the puzzle and return the solution """
     return False
 
 
