@@ -12,7 +12,7 @@ def load_data_from_file(filename):
 def prepare_data(x):
     """ transform the data the way we want it for the puzzle """
     signal_patterns, output = x.split(' | ')
-    return signal_patterns.split(), output.split()
+    return list(map(set,signal_patterns.split())), output.split()
 
 
 def solve(data):
@@ -23,42 +23,51 @@ def solve(data):
         while len(matched_patterns) != 10:
             for pattern in signal_patterns:
                 if len(pattern) == 2:
-                    matched_patterns[1] = sorted(pattern)
+                    matched_patterns[1] = pattern
+                    continue
                 if len(pattern) == 4:
-                    matched_patterns[4] = sorted(pattern)
+                    matched_patterns[4] = pattern
+                    continue
                 if len(pattern) == 7:
-                    matched_patterns[8] = sorted(pattern)
+                    matched_patterns[8] = pattern
+                    continue
                 if len(pattern) == 3:
-                    matched_patterns[7] = sorted(pattern)
+                    matched_patterns[7] = pattern
+                    continue
                 if len(pattern) == 5:
                     # 2, 3 or 5
-                    if 1 in matched_patterns and not 3 in matched_patterns:
-                        if set(matched_patterns[1]).issubset(set(pattern)):
-                            matched_patterns[3] = sorted(pattern)
+                    if 1 in matched_patterns and not 3 in matched_patterns and not 5 in matched_patterns:
+                        if matched_patterns[1].issubset(pattern):
+                            matched_patterns[3] = pattern
                             continue
-                    if 9 in matched_patterns and 3 in matched_patterns:
-                        if 5 not in matched_patterns:
-                            pattern_to_test = set(matched_patterns[9]) - set(matched_patterns[3])
-                            if pattern_to_test.issubset(set(pattern)):
-                                matched_patterns[5] = sorted(pattern)
+                    if 9 in matched_patterns and 3 in matched_patterns and not 5 in matched_patterns and not 2 in matched_patterns:
+                            pattern_to_test = matched_patterns[9] - matched_patterns[3]
+                            if pattern_to_test.issubset(pattern):
+                                matched_patterns[5] = pattern
                                 continue
-                    if 3 in matched_patterns and 5 in matched_patterns and not 2 in matched_patterns:
-                        matched_patterns[2] = sorted(pattern)
-                        continue
+                    if 3 in matched_patterns and 5 in matched_patterns and not 2 in matched_patterns and 9 in matched_patterns:
+                        pattern_to_test = matched_patterns[9] - matched_patterns[3]
+                        if not pattern_to_test.issubset(pattern) and pattern != matched_patterns[3]:
+                            matched_patterns[2] = pattern
+                            continue
                 if len(pattern) == 6:
                     # 0, 6 or 9
-                    if 1 in matched_patterns and not 6 in matched_patterns:
-                        if not set(matched_patterns[1]).issubset(set(pattern)):
-                            matched_patterns[6] = sorted(pattern)
-                    if 4 in matched_patterns and not 9 in matched_patterns:
-                        if set(matched_patterns[4]).issubset(set(pattern)):
-                            matched_patterns[9] = sorted(pattern)
+                    if 1 in matched_patterns and not 6 in matched_patterns and not 9 in matched_patterns and not 0 in matched_patterns:
+                        if not matched_patterns[1].issubset(pattern):
+                            matched_patterns[6] = pattern
+                            continue
+                    if 4 in matched_patterns and 6 in matched_patterns and not 9 in matched_patterns and not 0 in matched_patterns:
+                        if matched_patterns[4].issubset(pattern):
+                            matched_patterns[9] = pattern
+                            continue
                     if 6 in matched_patterns and 9 in matched_patterns and not 0 in matched_patterns:
-                            matched_patterns[0] = sorted(pattern)
+                        if matched_patterns[7].issubset(pattern):
+                            matched_patterns[0] = pattern
+                            continue
         printed_number = ""
         for displayed_number in output:
             for num, pattern in matched_patterns.items():
-                if set(pattern) == set(displayed_number):
+                if pattern == set(displayed_number):
                     printed_number += str(num)
                     break
         total += int(printed_number)
