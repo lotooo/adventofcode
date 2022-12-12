@@ -78,49 +78,28 @@ class Grid:
 def best_first_search(grid):
     start = grid.start
     visited = { k: False for k,v in grid.grid.items() }
-    pq = PriorityQueue()
+    pq = Queue()
     visited[start.pos] = True
-    pq.put((0,start))
-
-    path = []
+    pq.put([start])
 
     while not pq.empty(): 
-        cost, element = pq.get()
-        path.append(element.elevation)
+        path = pq.get()
+        element = path[-1]
         if element.elevation == 'E':
             break
         for neighboor in element.neighboors:
             if not visited[neighboor.pos]:
                 visited[neighboor.pos] = True
-                #if neighboor.elevation == element.elevation:
-                #    cost = 0 # let's not prioritize same value
-                #else:
-                cost = 0-neighboor.value
-                pq.put((cost,neighboor))
-    print(''.join(path))
+                tmp_path = list(path) # Make a copy
+                tmp_path.append(neighboor)
+                pq.put(tmp_path)
     print(len(path))
     return len(path)
-
-def find_best(chain, visited):
-    element = chain[-1]
-    visited[element.pos] = True
-    chains = []
-    if element.elevation == "E":
-        return chain
-    for e in [ n for n in element.neighboors if not visited[n.pos] ]:
-        t = chain.copy()
-        t.append(e)
-        return find_best(chain=t,visited=visited)
-    return chains
 
 def solve(data):
     """ Solve the puzzle and return the solution """
     grid = Grid(data)
-    #visited = { k: False for k,v in grid.grid.items() }
-    #a=find_best([grid.start],visited)
-    #print(a)
-    #print(len(a))
-    return best_first_search(grid)-1
+    return best_first_search(grid)-1 # Remove S
 
 
 print("--> test data <--")
