@@ -27,7 +27,9 @@ def compare(element1, element2):
         # No more element
         # No choice made
         # Packets are in the right order
-        return True
+        if len(element1) < len(element2):
+            return True
+        return None
     if type(element1) == list and type(element2) == int:
         test = compare(element1,[element2])
         if test is not None:
@@ -46,13 +48,7 @@ def compare(element1, element2):
 def is_right_order(p1,p2):
     list1=json.loads(p1)
     list2=json.loads(p2)
-    print("---")
-    print(list1)
-    print(list2)
-    print("---")
     test = None
-    #if len(list2) < len(list1):
-    #    return False
     for i, element in enumerate(list1):
         try:
             a = list2[i]
@@ -64,8 +60,9 @@ def is_right_order(p1,p2):
     # No more element
     # No choice made
     # Packets are in the right order
-    return True
-    #return None
+    if len(list1) < len(list2):
+        return True
+    return None
 
 def solve(data):
     """ Solve the puzzle and return the solution """
