@@ -29,7 +29,8 @@ class Element:
         if self.elevation == 'S':
             return ord('a')
         elif self.elevation == 'E':
-            return 123 # the one after 'z'
+            #return 123 # the one after 'z'
+            return ord('z') # the one after 'z'
         else:
             return ord(self.elevation)
 
@@ -96,7 +97,9 @@ class Grid:
                 #print(f"Found 1 working path. Length: {len(mypath)}")
                 paths.append(mypath)
             #for neighboor in [ node for node in node.neighboors if node.pos not in [m.pos for m in mypath]]:
-            for neighboor in [ node for node in node.neighboors if node.pos not in visited]:
+            for neighboor in node.neighboors:
+#                if neighboor.pos in visited and visited[neighboor.pos] < distance:
+#                    continue
                 tmp_path = mypath.copy()
                 tmp_path.append(neighboor)
                 #if tmp_path not in nodes_to_analyse:
