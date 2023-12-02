@@ -3,14 +3,6 @@ repos:
   rev: release-21.6b0
   hooks:
    - id: cblack
-- repo: local
-  hooks:
-    - id: pylint
-      name: pylint
-      entry: pylint
-      language: system
-      types: [python]
-      args: ['--rcfile=./pylint.toml']
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.3.0
   hooks:
