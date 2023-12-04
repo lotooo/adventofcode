@@ -29,12 +29,11 @@ def prepare_data(x):
 
 def solve(data):
   """Solve the puzzle and return the solution"""
-  cards = {c.id: [c] for c in data}
+  cards = {c.id: 1 for c in data}
   for i in range(1, len(data) + 1):
-    for card_copy in cards[i]:
-      for doubling_card_id in range(i + 1, i + card_copy.score + 1):
-        cards[doubling_card_id].append(cards[doubling_card_id][0])
-  return sum([len(v) for v in cards.values()])
+    for doubling_card_id in range(i + 1, i + data[i - 1].score + 1):
+      cards[doubling_card_id] += cards[i]
+  return sum(cards.values())
 
 
 print("--> test data <--")
