@@ -18,16 +18,17 @@ def get_next(history, debug=False):
     for i in range(len(old[-1]) - 1):
       tmp.append(old[-1][i + 1] - old[-1][i])
     old.append(tmp)
+
   # Discover next now !
-  old[-1].append(0)
+  old[-1].insert(0, 0)
   for i in range(len(old) - 2, -1, -1):
-    old[i].append(old[i][-1] + old[i + 1][-1])
+    old[i].insert(0, old[i][0] - old[i + 1][0])
   if debug:
     # Print it for debugging
     for h in old:
       print(h)
     print("")
-  return old[0][-1]
+  return old[0][0]
 
 
 def solve(data):
@@ -41,7 +42,7 @@ def solve(data):
 
 print("--> test data <--")
 test_input = load_data_from_file("test_input")
-assert solve(test_input) == 114
+assert solve(test_input) == 2
 
 print()
 print("--> real data <--")
