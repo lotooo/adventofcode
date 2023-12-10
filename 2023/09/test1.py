@@ -11,9 +11,9 @@ def prepare_data(x):
   return list(map(lambda x: int(x), x.strip().split()))
 
 
-def get_next(history):
+def get_next(history, debug=False):
   old = [history]
-  while sum(old[-1]) != 0:
+  while False in map(lambda x: x == 0, old[-1]):
     tmp = []
     for i in range(len(old[-1]) - 1):
       tmp.append(old[-1][i + 1] - old[-1][i])
@@ -22,19 +22,24 @@ def get_next(history):
   old[-1].append(0)
   for i in range(len(old) - 2, -1, -1):
     old[i].append(old[i][-1] + old[i + 1][-1])
-  # Print it for debugging
-  for h in old:
-    print(h)
-  print("")
+  if debug:
+    # Print it for debugging
+    for h in old:
+      print(h)
+    print("")
   return old[0][-1]
 
 
 def solve(data):
   """Solve the puzzle and return the solution"""
   nexts = []
+  debug = False
   for history in data:
-    nexts.append(get_next(history))
-  print(f"{nexts=}")
+    if len(nexts) == 15:
+      debug = True
+    else:
+      debug = False
+    nexts.append(get_next(history, debug))
   return sum(nexts)
 
 
