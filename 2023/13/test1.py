@@ -28,7 +28,7 @@ def get_mirror(puzzle):
           break
     if offset and mirror_line != len(puzzle) - 1:
       working.append((mirror_line, offset))
-  if len(working) > 1:
+  if len(working) > 0:
     return working[0]
   else:
     return (mirror_line, offset)

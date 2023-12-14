@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+import sys
+
+sys.path.append("../../")
+from utils import *
+
+
 def load_data_from_file(filename):
   """Load the input from a file and return the transformed version"""
   with open(filename, "r") as f:
