@@ -28,9 +28,10 @@ def get_score(board):
 def solve(data):
   """Solve the puzzle and return the solution"""
   backup = []
+  repeater = None
+  iteration = 1000000000
   new_board = data
-  backup.append(new_board)
-  for j in range(1000000000):
+  for j in range(1, iteration + 1):
     for i in range(4):
       board = new_board
       new_board = []
@@ -49,11 +50,16 @@ def solve(data):
         new_board = rotate_matrix(new_board)
     if new_board in backup:
       index = backup.index(new_board)
+      if repeater == None:
+        repeater = j - index - 1
+        starter = j
+        first_index = index
       break
     else:
       backup.append(new_board)
-  print(f"{1000000000%(j+1-index)=}")
-  return get_score(backup[1000000000 % (j + 1 - index)])
+  myindex = ((iteration - starter) % (repeater)) + first_index
+  score = get_score(backup[myindex])
+  return score
 
 
 print("--> test data <--")
