@@ -38,7 +38,15 @@ class Grid2D:
         self.max_y = len(grid)
         self.max_x = len(grid[0])
 
+    def is_in(self, point):
+        """Return True if the point belong to the grid"""
+        x, y = point
+        if x >= 0 and x < self.max_x and y >= 0 and y < self.max_y:
+            return True
+        return False
+
     def search(self, char):
+        """Return ever points with the specified value"""
         search = []
         for y, line in enumerate(self.grid):
             for x, cell in enumerate(line):
@@ -46,7 +54,35 @@ class Grid2D:
                     search.append((x, y))
         return search
 
+    def get_line(self, points):
+        """Return every points of a line passing by 2 points"""
+        p1, p2 = points
+        x1, y1 = p1
+        x2, y2 = p2
+        dx = x2 - x1
+        dy = y2 - y1
+        out = [p1, p2]
+
+        # Make sure it's not a vertical line
+        if x2 - x1 != 0:
+            for i in range(x1 + 1):
+                nx = x1 - dx * i
+                ny = y1 - dy * i
+                if self.is_in((nx, ny)):
+                    out.append((nx, ny))
+            for i in range(self.max_x - x1 + 1):
+                nx = x1 + dx * i
+                ny = y1 + dy * i
+                if self.is_in((nx, ny)):
+                    out.append((nx, ny))
+        else:
+            x = x1
+            for y in range(0, self.max_y):
+                out.append(x, y)
+        return out
+
     def get_nexts(self, x, y, direction):
+        """Return every points in a specific direction starting from a point"""
         if direction == "U":
             return [(x, ny) for ny in range(y - 1, -1, -1)]
         if direction == "D":
@@ -66,6 +102,7 @@ class Grid2D:
         include_vertical=True,
         include_diagonal=True,
     ):
+        """Return every nodes in diag, vert or horiz at a specific distance"""
         out = []
         if include_horizontal:
             out.append(self.get_horizontal_neighboors(x, y, -distance, include_self))
@@ -78,6 +115,7 @@ class Grid2D:
         return out
 
     def get_diagonal_neighboors(self, x, y, distance, include_self=False):
+        """Return nodes in diag of a point at a specific distance"""
         out = []
 
         # bottom right
@@ -147,6 +185,7 @@ class Grid2D:
         return out
 
     def get_horizontal_neighboors(self, x, y, dx, include_self=False):
+        """Return nodes at horizontal of a point at a specific distance"""
         points = []
         if dx > 0:
             if include_self:
@@ -161,6 +200,7 @@ class Grid2D:
         return points
 
     def get_vertical_neighboors(self, x, y, dy, include_self=False):
+        """Return nodes in vertical of a point at a specific distance"""
         points = []
         if dy > 0:
             if include_self:
@@ -175,6 +215,7 @@ class Grid2D:
         return points
 
     def get_neighboors(self, x, y):
+        """Return neighboors of a specific point"""
         candidates = [
             pos
             for pos in map(
@@ -189,6 +230,7 @@ class Grid2D:
         ]
 
     def print(self, marked_cells=[]):
+        """Print the grid and add color to a specific subset of node"""
         for y, line in enumerate(self.grid):
             for x, c in enumerate(line):
                 if (x, y) in marked_cells:
@@ -198,6 +240,7 @@ class Grid2D:
             print("\n", end="")
 
     def value(self, x, y):
+        """Return the value of a node"""
         return self.grid[y][x]
 
     def __str__(self):
