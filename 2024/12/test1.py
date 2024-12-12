@@ -92,10 +92,10 @@ def solve(data):
 
 
 print("--> test data <--")
-# test_input = load_data_from_file("test_input")
-# assert solve(test_input) == 140
-# test_input2 = load_data_from_file("test_input2")
-# assert solve(test_input2) == 772
+test_input = load_data_from_file("test_input")
+assert solve(test_input) == 140
+test_input2 = load_data_from_file("test_input2")
+assert solve(test_input2) == 772
 test_input3 = load_data_from_file("test_input3")
 assert solve(test_input3) == 1930
 
