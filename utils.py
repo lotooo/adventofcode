@@ -32,11 +32,43 @@ def print_2d_grid(grid, marked_cells=[]):
         print("\n", end="")
 
 
+def cramer_2x2(a1, b1, c1, a2, b2, c2):
+    """
+    Solves the system of equations:
+    a1x + b1y = c1
+    a2x + b2y = c2
+    Using the cramer system
+    """
+    # Calculate determinant of the coefficient matrix
+    D = a1 * b2 - a2 * b1
+    if D == 0:
+        # No solution
+        return None
+    # Determinant for x
+    Dx = c1 * b2 - c2 * b1
+    # Determinant for y
+    Dy = a1 * c2 - a2 * c1
+
+    # Calculate x and y
+    x = Dx / D
+    y = Dy / D
+
+    return x, y
+
+
 class Grid2D:
     def __init__(self, grid):
         self.grid = grid
         self.max_y = len(grid)
         self.max_x = len(grid[0])
+
+    @property
+    def cells(self):
+        cells = []
+        for y, line in enumerate(self.grid):
+            for x, char in enumerate(line):
+                cells.append((x, y))
+        return cells
 
     def is_in(self, point):
         """Return True if the point belong to the grid"""
@@ -47,12 +79,7 @@ class Grid2D:
 
     def search(self, char):
         """Return ever points with the specified value"""
-        search = []
-        for y, line in enumerate(self.grid):
-            for x, cell in enumerate(line):
-                if cell == char:
-                    search.append((x, y))
-        return search
+        return [(x, y) for (x, y) in self.cells if self.grid[y][x] == char]
 
     def get_line(self, points):
         """Return every points of a line passing by 2 points"""
