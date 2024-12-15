@@ -266,6 +266,12 @@ class Grid2D:
                     print(c, end="")
             print("\n", end="")
 
+    def set_value(self, x, y, value):
+        """Set value of a cell"""
+        line = list(self.grid[y])
+        line[x] = value
+        self.grid[y] = "".join(line)
+
     def value(self, x, y):
         """Return the value of a node"""
         return self.grid[y][x]
