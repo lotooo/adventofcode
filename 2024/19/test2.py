@@ -33,23 +33,14 @@ def fget_arrangements(pattern, towels):
 
 
 def get_arrangements(pattern, towels):
-    sorted_towels = defaultdict(list)
     distinct_designs = defaultdict(int)
     distinct_designs[0] = 1
-    for t in towels:
-        sorted_towels[len(t)].append(t)
     for i in range(1, len(pattern) + 1):
         for towel in towels:
             l = len(towel)
-            # print(f'{i=} : {towel=}')
             if i - l >= 0:
-                same_size_towels = [t for t in towels if len(t) == l]
-                # print(f'{i=} : {towel=} : {pattern[i-l:i]} - {same_size_towels}')
-                # if pattern[i - l : i] in same_size_towels:
                 if pattern[i - l : i] == towel:
                     distinct_designs[i] += distinct_designs[i - l]
-            # print(f"=> {distinct_designs[i]}")
-        # print(f"dp for {i}: {distinct_designs[i]}")
     return distinct_designs[len(pattern)]
 
 
@@ -62,7 +53,6 @@ def solve(data):
         print(f"Working on pattern {i+1}/{len(patterns)}: {pattern}")
         arr = get_arrangements(pattern.strip(), towels)
         result.append(arr)
-    print(result)
     return sum(result)
 
 
